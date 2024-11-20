@@ -122,6 +122,7 @@ body {
 /* Image Gallery */
 .image-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   padding: 20px;
   margin-top: 20px;
@@ -136,6 +137,10 @@ body {
   padding: 10px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease-in-out;
+  flex: 1;
+  max-width: 45%;
+  margin: 10px; 
+}
 }
 
 .image-block:hover {
