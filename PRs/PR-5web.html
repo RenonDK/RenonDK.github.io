@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Карта з маркерами</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #map {
+      height: 500px;
+      width: 90%;
+      margin: 20px auto;
+    }
+
+    input, button, select {
+      margin: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Інтерактивна карта з маркерами</h1>
+  <div id="map"></div>
+  <div>
+    <input type="text" id="lat" placeholder="Широта (Latitude)">
+    <input type="text" id="lng" placeholder="Довгота (Longitude)">
+    <button id="add-marker">Додати маркер</button>
+    <button id="scroll-to">Проскролити до координат</button>
+    <br>
+    <select id="marker-select">
+      <option value="">Оберіть маркер для видалення</option>
+    </select>
+    <button id="remove-marker">Видалити маркер</button>
+  </div>
+
+  <script>
+    // Ініціалізація карти з центруванням на Івано-Франківську
+    const map = L.map('map').setView([48.9226, 24.7275], 13);
+
+    // Додавання плиток карти
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Масив для зберігання маркерів
+    let markers = [];
+
+    // Додавання початкового маркера на адресу Вовчинецька, 223
+    function addMarker(lat, lng, popupText) {
+      const marker = L.marker([lat, lng]).addTo(map)
+        .bindPopup(popupText)
+        .openPopup();
+
+      // Додаємо маркер в масив і select
+      const markerId = markers.length;
+      markers.push({ marker, id: markerId });
+      updateMarkerSelect(markerId, popupText);
+    }
+
+    // Оновлення випадаючого списку для маркерів
+    function updateMarkerSelect(id, text) {
+      const select = document.getElementById('marker-select');
+      const option = document.createElement('option');
+      option.value = id;
+      option.textContent = text;
+      select.appendChild(option);
+    }
+
+    // Видалення вибраного маркера
+    function removeMarker() {
+      const select = document.getElementById('marker-select');
+      const markerId = parseInt(select.value);
+
+      if (!isNaN(markerId)) {
+        const markerIndex = markers.findIndex(m => m.id === markerId);
+
+        if (markerIndex !== -1) {
+          // Видаляємо маркер з карти
+          map.removeLayer(markers[markerIndex].marker);
+          markers.splice(markerIndex, 1);
+
+          // Видаляємо елемент з select
+          select.remove(select.selectedIndex);
+        }
+      } else {
+        alert('Оберіть маркер для видалення.');
+      }
+    }
+
+    // Додавання стартового маркера на Вовчинецька, 223
+    addMarker(48.9226, 24.7275, 'Адреса: Вовчинецька, 223, Івано-Франківськ');
+
+    // Додавання нового маркера
+    document.getElementById('add-marker').addEventListener('click', () => {
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lng = parseFloat(document.getElementById('lng').value);
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+        const currentTime = new Date().toLocaleString();
+        addMarker(lat, lng, `Координати: ${lat}, ${lng}<br>Час: ${currentTime}`);
+      } else {
+        alert('Будь ласка, введіть коректні координати.');
+      }
+    });
+
+    // Прокрутка карти до введених координат
+    document.getElementById('scroll-to').addEventListener('click', () => {
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lng = parseFloat(document.getElementById('lng').value);
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+        map.setView([lat, lng], 13);
+      } else {
+        alert('Будь ласка, введіть коректні координати.');
+      }
+    });
+
+    // Видалення маркера
+    document.getElementById('remove-marker').addEventListener('click', removeMarker);
+  </script>
+</body>
+</html>
