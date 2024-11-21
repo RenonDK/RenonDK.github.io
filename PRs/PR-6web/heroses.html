@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Our superheroes</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+
+      <header>
+
+      </header>
+
+      <section>
+
+      </section>
+
+      <script>
+        // Функція для завантаження JSON-даних
+        async function loadHeroes() {
+            const response = await fetch('example.json'); // Замініть на актуальний шлях до JSON
+            const data = await response.json();
+            populateHeader(data);
+            showHeroes(data);
+        }
+
+        // Функція для заповнення заголовка
+        function populateHeader(data) {
+            const header = document.querySelector('header');
+
+            // Створюємо h1 для назви загону
+            const squadName = document.createElement('h1');
+            squadName.textContent = data.squadName;
+            header.appendChild(squadName);
+
+            // Створюємо p для додаткової інформації
+            const details = document.createElement('p');
+            details.textContent = `Hometown: ${data.homeTown} // Formed: ${data.formed}`;
+            header.appendChild(details);
+        }
+
+        // Функція для створення карток героїв
+        function showHeroes(data) {
+            const section = document.querySelector('section');
+            const members = data.members;
+
+            members.forEach((hero) => {
+                const article = document.createElement('article');
+
+                const h2 = document.createElement('h2');
+                h2.textContent = hero.name;
+                article.appendChild(h2);
+
+                const para1 = document.createElement('p');
+                para1.textContent = `Secret Identity: ${hero.secretIdentity}`;
+                article.appendChild(para1);
+
+                const para2 = document.createElement('p');
+                para2.textContent = `Age: ${hero.age}`;
+                article.appendChild(para2);
+
+                const powersList = document.createElement('ul');
+                hero.powers.forEach((power) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = power;
+                    powersList.appendChild(listItem);
+                });
+                article.appendChild(powersList);
+
+                section.appendChild(article);
+            });
+        }
+
+        // Викликаємо функцію для завантаження і відображення даних
+        loadHeroes();
+
+      </script>
+  </body>
+</html>
