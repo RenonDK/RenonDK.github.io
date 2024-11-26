@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Our superheroes</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Faster+One" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+
+    <header>
+
+    </header>
+
+    <section>
+
+    </section>
+
+    <div class="language-switcher">
+      <button id="translate-ua">UA</button>
+      <button id="translate-en">EN</button>
+    </div>
+
+    <script>
+      let translations = null;
+
+      // Завантаження JSON із перекладами
+      async function loadTranslations() {
+        const response = await fetch('example.json'); // Шлях до JSON із перекладом
+        translations = await response.json();
+      }
+
+      // Відображення даних на основі мови
+      function renderPage(language) {
+        if (!translations) return;
+
+        const data = translations[language];
+        populateHeader(data);
+        showHeroes(data);
+      }
+
+      // Заповнення заголовка
+      function populateHeader(data) {
+        const header = document.querySelector('header');
+        header.innerHTML = ''; // Очищення заголовка
+        const squadName = document.createElement('h1');
+        squadName.textContent = data.squadName;
+        header.appendChild(squadName);
+
+        const details = document.createElement('p');
+        details.textContent = `Hometown: ${data.homeTown} // Formed: ${data.formed}`;
+        header.appendChild(details);
+      }
+
+      // Відображення героїв
+      function showHeroes(data) {
+        const section = document.querySelector('section');
+        section.innerHTML = ''; // Очищення секції
+        const members = data.members;
+
+        members.forEach((hero) => {
+          const article = document.createElement('article');
+          const h2 = document.createElement('h2');
+          h2.textContent = hero.name;
+          article.appendChild(h2);
+
+          const para1 = document.createElement('p');
+          para1.textContent = `Secret Identity: ${hero.secretIdentity}`;
+          article.appendChild(para1);
+
+          const para2 = document.createElement('p');
+          para2.textContent = `Age: ${hero.age}`;
+          article.appendChild(para2);
+
+          const powersList = document.createElement('ul');
+          hero.powers.forEach((power) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = power;
+            powersList.appendChild(listItem);
+          });
+          article.appendChild(powersList);
+          section.appendChild(article);
+        });
+      }
+
+      // Слухачі для кнопок
+      document.getElementById('translate-ua').addEventListener('click', () => renderPage('ua'));
+      document.getElementById('translate-en').addEventListener('click', () => renderPage('en'));
+
+      // Початкове завантаження
+      async function initPage() {
+        await loadTranslations(); // Завантаження перекладів
+        renderPage('en'); // Завантаження англійською мовою за замовчуванням
+      }
+
+      initPage();
+    </script>
+  </body>
+</html>
