@@ -36,33 +36,33 @@
   </div>
 
   <script>
-    // Ініціалізація карти
+    
     const map = L.map('map').setView([48.943232486757296, 24.73202784604074], 13); // Центрування на Київ (або ваші координати)
 
-    // Додавання плиток карти (основний вигляд карти)
+    
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
     }).addTo(map);
 
-    // Додавання маркера на стартові координати
+    
     const initialMarker = L.marker([48.943232486757296, 24.73202784604074]).addTo(map)
       .bindPopup('Це ваше місце розташування.').openPopup();
 
-    // Масив для зберігання маркерів
+    
     let markers = [];
 
-    // Функція для додавання нового маркера
+    
     function addMarker(lat, lng, popupText) {
       const marker = L.marker([lat, lng]).addTo(map)
         .bindPopup(popupText)
         .openPopup();
 
-      // Додавання маркера до списку
+      
       markers.push(marker);
     }
 
-    // Обробник кнопки для додавання маркера
+    
     document.getElementById('add-marker').addEventListener('click', () => {
       const lat = parseFloat(document.getElementById('lat').value);
       const lng = parseFloat(document.getElementById('lng').value);
@@ -75,13 +75,13 @@
       }
     });
 
-    // Обробник кнопки для прокрутки до координат
+    
     document.getElementById('scroll-to').addEventListener('click', () => {
       const lat = parseFloat(document.getElementById('lat').value);
       const lng = parseFloat(document.getElementById('lng').value);
 
       if (!isNaN(lat) && !isNaN(lng)) {
-        map.setView([lat, lng], 13); // Прокрутка до нових координат
+        map.setView([lat, lng], 13); 
       } else {
         alert('Будь ласка, введіть коректні координати.');
       }
