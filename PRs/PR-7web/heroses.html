@@ -27,13 +27,13 @@
     <script>
       let translations = null;
 
-      // Завантаження JSON із перекладами
+      
       async function loadTranslations() {
         const response = await fetch('example.json'); // Шлях до JSON із перекладом
         translations = await response.json();
       }
 
-      // Відображення даних на основі мови
+      
       function renderPage(language) {
         if (!translations) return;
 
@@ -42,7 +42,7 @@
         showHeroes(data);
       }
 
-      // Заповнення заголовка
+      
       function populateHeader(data) {
         const header = document.querySelector('header');
         header.innerHTML = ''; // Очищення заголовка
@@ -55,10 +55,10 @@
         header.appendChild(details);
       }
 
-      // Відображення героїв
+      
       function showHeroes(data) {
         const section = document.querySelector('section');
-        section.innerHTML = ''; // Очищення секції
+        section.innerHTML = ''; 
         const members = data.members;
 
         members.forEach((hero) => {
@@ -86,14 +86,14 @@
         });
       }
 
-      // Слухачі для кнопок
+      
       document.getElementById('translate-ua').addEventListener('click', () => renderPage('ua'));
       document.getElementById('translate-en').addEventListener('click', () => renderPage('en'));
 
-      // Початкове завантаження
+      
       async function initPage() {
-        await loadTranslations(); // Завантаження перекладів
-        renderPage('en'); // Завантаження англійською мовою за замовчуванням
+        await loadTranslations(); 
+        renderPage('en'); /
       }
 
       initPage();
