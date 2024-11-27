@@ -20,7 +20,7 @@
       </section>
 
       <script>
-        // Функція для завантаження JSON-даних
+        
         async function loadHeroes() {
             const response = await fetch('example.json'); // Замініть на актуальний шлях до JSON
             const data = await response.json();
@@ -28,22 +28,22 @@
             showHeroes(data);
         }
 
-        // Функція для заповнення заголовка
+        
         function populateHeader(data) {
             const header = document.querySelector('header');
 
-            // Створюємо h1 для назви загону
+            
             const squadName = document.createElement('h1');
             squadName.textContent = data.squadName;
             header.appendChild(squadName);
 
-            // Створюємо p для додаткової інформації
+            
             const details = document.createElement('p');
             details.textContent = `Hometown: ${data.homeTown} // Formed: ${data.formed}`;
             header.appendChild(details);
         }
 
-        // Функція для створення карток героїв
+        
         function showHeroes(data) {
             const section = document.querySelector('section');
             const members = data.members;
@@ -75,7 +75,7 @@
             });
         }
 
-        // Викликаємо функцію для завантаження і відображення даних
+        
         loadHeroes();
 
       </script>
