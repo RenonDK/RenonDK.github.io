@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Слайдер зі смартфонами</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+        text-align: center;
+    }
+
+    .slider {
+      position: relative;
+      width: 80%;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-container {
+      display: flex;
+      width: calc(100%);
+      transition: transform 0.5s ease;
+    }
+
+    .slider-item {
+      flex: 0 0 25%;
+      box-sizing: border-box;
+      padding: 15px;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-right: 1px solid #ddd;
+    }
+
+    .slider-item img {
+      max-width: 120px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .slider-item h3 {
+      margin: 10px 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .slider-item p {
+      font-size: 16px;
+      font-weight: bold;
+      color: #444;
+      margin: 10px 0;
+    }
+
+    .slider-item .description {
+      font-size: 14px;
+      color: #666;
+      margin: 5px 0 10px;
+    }
+
+    .slider-controls {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .slider-controls button {
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+    }
+
+    .slider-controls button:hover {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="header">Смартфони</h1>
+  <div class="slider">
+    <div class="slider-container">
+      <div class="slider-item">
+        <h3>СМАРТФОН SAMSUNG</h3>
+        <img src="../img/samsung.webp" alt="Смартфон Samsung">
+        <div class="description">Флагманський смартфон із потужною камерою, великим екраном і підтримкою 5G.</div>
+        <p>12 000 ГРН</p>
+      </div>
+      <div class="slider-item">
+        <h3>СМАРТФОН APPLE</h3>
+        <img src="../img/apple.webp" alt="Смартфон Apple">
+        <div class="description">Новітня модель iPhone з OLED-дисплеєм, трьома камерами та функцією Face ID.</div>
+        <p>35 000 ГРН</p>
+      </div>
+      <div class="slider-item">
+        <h3>СМАРТФОН XIAOMI</h3>
+        <img src="../img/xiaomi.webp" alt="Смартфон Xiaomi">
+        <div class="description">Бюджетний смартфон із потужним процесором, батареєю на 5000 мА·год та гарною камерою.</div>
+        <p>9 000 ГРН</p>
+      </div>
+      <div class="slider-item">
+        <h3>СМАРТФОН HUAWEI</h3>
+        <img src="../img/huawei.webp" alt="Смартфон Huawei">
+        <div class="description">Елегантний дизайн, високоякісний дисплей і камера з підтримкою нічного режиму.</div>
+        <p>10 500 ГРН</p>
+      </div>
+      <div class="slider-item">
+        <h3>СМАРТФОН OPPO</h3>
+        <img src="../img/oppo.webp" alt="Смартфон Oppo">
+        <div class="description">Легкий і стильний смартфон із швидкою зарядкою VOOC та AMOLED-дисплеєм.</div>
+        <p>8 000 ГРН</p>
+      </div>
+      <div class="slider-item">
+        <h3>СМАРТФОН GOOGLE PIXEL</h3>
+        <img src="../img/pixel.webp" alt="Смартфон Google Pixel">
+        <div class="description">Смартфон для фотографій із Google Camera, підтримкою Android 14 та 5 років оновлень.</div>
+        <p>15 000 ГРН</p>
+      </div>
+      <div class="slider-item">
+        <h3>СМАРТФОН REALME</h3>
+        <img src="../img/realme.webp" alt="Смартфон Realme">
+        <div class="description">Доступний смартфон із гарним співвідношенням ціни та продуктивності.</div>
+        <p>7 500 ГРН</p>
+      </div>
+      <div class="slider-item">
+        <h3>СМАРТФОН NOKIA</h3>
+        <img src="../img/nokia.webp" alt="Смартфон Nokia">
+        <div class="description">Надійний смартфон із чистим Android і довговічною батареєю.</div>
+        <p>6 000 ГРН</p>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="prev">&lt;</button>
+      <button class="next">&gt;</button>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      const visibleItems = 4;
+      const itemWidth = $(".slider-item").outerWidth();
+      const sliderContainer = $(".slider-container");
+      const totalItems = $(".slider-item").length;
+      let currentIndex = 0;
+
+      function updateSlider() {
+        const offset = -currentIndex * itemWidth + "px";
+        sliderContainer.css("transform", `translateX(${offset})`);
+      }
+
+      $(".next").click(function () {
+        if (currentIndex < totalItems - visibleItems) {
+          currentIndex++;
+        } else {
+          currentIndex = 0;
+        }
+        updateSlider();
+      });
+
+      $(".prev").click(function () {
+        if (currentIndex > 0) {
+          currentIndex--;
+        } else {
+          currentIndex = totalItems - visibleItems;
+        }
+        updateSlider();
+      });
+    });
+  </script>
+</body>
+</html>
