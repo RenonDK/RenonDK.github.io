@@ -1,0 +1,78 @@
+{
+  "ua": [
+    {
+      "name": "Смартфон Samsung",
+      "description": "Флагманський смартфон із потужною камерою, великим екраном і підтримкою 5G.",
+      "price": "12 000 ГРН",
+      "image": "../../img/samsung.webp"
+    },
+    {
+      "name": "Смартфон Apple",
+      "description": "Новітня модель iPhone з OLED-дисплеєм, трьома камерами та функцією Face ID.",
+      "price": "35 000 ГРН",
+      "image": "../../img/apple.webp"
+    },
+    {
+      "name": "Смартфон Xiaomi",
+      "description": "Бюджетний смартфон із великою батареєю та швидкою зарядкою.",
+      "price": "8 000 ГРН",
+      "image": "../../img/xiaomi.webp"
+    },
+    {
+      "name": "Смартфон Huawei",
+      "description": "Стильний смартфон із високоякісною камерою та підтримкою NFC.",
+      "price": "10 500 ГРН",
+      "image": "../../img/huawei.webp"
+    },
+    {
+      "name": "Смартфон OnePlus",
+      "description": "Швидкий смартфон із AMOLED-екраном та оптимізованим інтерфейсом.",
+      "price": "15 000 ГРН",
+      "image": "../../img/oneplus.webp"
+    },
+    {
+      "name": "Смартфон Google Pixel",
+      "description": "Смартфон із чистим Android та неперевершеною камерою.",
+      "price": "18 000 ГРН",
+      "image": "../../img/pixel.webp"
+    }
+  ],
+  "en": [
+    {
+      "name": "Samsung Smartphone",
+      "description": "A flagship smartphone with a powerful camera, large display, and 5G support.",
+      "price": "$450",
+      "image": "../../img/samsung.webp"
+    },
+    {
+      "name": "Apple Smartphone",
+      "description": "The latest iPhone model with an OLED display, triple cameras, and Face ID.",
+      "price": "$1,000",
+      "image": "../../img/apple.webp"
+    },
+    {
+      "name": "Xiaomi Smartphone",
+      "description": "A budget-friendly smartphone with a large battery and fast charging.",
+      "price": "$300",
+      "image": "../../img/xiaomi.webp"
+    },
+    {
+      "name": "Huawei Smartphone",
+      "description": "A stylish smartphone with a high-quality camera and NFC support.",
+      "price": "$400",
+      "image": "../../img/huawei.webp"
+    },
+    {
+      "name": "OnePlus Smartphone",
+      "description": "A fast smartphone with an AMOLED display and optimized interface.",
+      "price": "$550",
+      "image": "../../img/oneplus.webp"
+    },
+    {
+      "name": "Google Pixel Smartphone",
+      "description": "A smartphone with pure Android and an outstanding camera.",
+      "price": "$600",
+      "image": "../../img/pixel.webp"
+    }
+  ]
+}

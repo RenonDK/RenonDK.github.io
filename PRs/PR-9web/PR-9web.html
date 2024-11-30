@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Слайдер зі смартфонами</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+        text-align: center;
+    }
+
+    .slider {
+      position: relative;
+      width: 80%;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-container {
+      display: flex;
+      width: calc(100%);
+      transition: transform 0.5s ease;
+    }
+
+    .slider-item {
+      flex: 0 0 25%;
+      box-sizing: border-box;
+      padding: 15px;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-right: 1px solid #ddd;
+    }
+
+    .slider-item img {
+      max-width: 120px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .slider-item h3 {
+      margin: 10px 0;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .slider-item p {
+      font-size: 16px;
+      font-weight: bold;
+      color: #444;
+      margin: 10px 0;
+    }
+
+    .slider-item .description {
+      font-size: 14px;
+      color: #666;
+      margin: 5px 0 10px;
+    }
+
+    .slider-controls {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .slider-controls button {
+      background-color: white;
+      border: 1px solid #ddd;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 18px;
+    }
+
+    .slider-controls button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .language-switcher {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.language-switcher button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.language-switcher button:hover {
+  background-color: #f0f0f0;
+}
+
+  </style>
+</head>
+<body>
+  <h1 class="header">Смартфони</h1>
+  <div class="slider">
+    <div class="slider-container"></div>
+    <div class="slider-controls">
+      <button class="prev">&lt;</button>
+      <button class="next">&gt;</button>
+    </div>
+  </div>
+  
+  
+  <button id="lang-uk">Українська</button>
+  <button id="lang-en">English</button>
+
+  
+
+  <script>
+  $(document).ready(function () {
+  const sliderContainer = $(".slider-container");
+  let currentIndex = 0;
+  let itemWidth = $(".slider-item").outerWidth(true);
+  let visibleItems = 4; // Початкова кількість елементів, що видно одночасно
+
+  // Функція для завантаження мови
+  function loadTranslations(lang = "ua") {
+    $.getJSON("translations.json", function (data) {
+      if (data[lang]) {
+        sliderData = data[lang];
+        populateSlider(sliderData);
+        // Зберігаємо вибрану мову в localStorage
+        localStorage.setItem("language", lang);
+      } else {
+        console.error(`Мова ${lang} не знайдена.`);
+      }
+    }).fail(function () {
+      console.error("Помилка завантаження JSON.");
+    });
+  }
+
+  // Функція для наповнення слайдера даними
+  function populateSlider(data) {
+    sliderContainer.empty();  // Очищаємо старі елементи
+    data.forEach(item => {
+      const sliderItem = `
+        <div class="slider-item">
+          <h3>${item.name}</h3>
+          <img src="${item.image}" alt="${item.name}">
+          <div class="description">${item.description}</div>
+          <p>${item.price}</p>
+        </div>
+      `;
+      sliderContainer.append(sliderItem);
+    });
+    // Оновлюємо після додавання нових елементів
+    itemWidth = $(".slider-item").outerWidth(true);
+    updateSlider();
+  }
+
+  // Оновлення слайдера
+  function updateSlider() {
+    const offset = -currentIndex * itemWidth + "px";
+    sliderContainer.css("transform", "translateX(" + offset + ")");
+  }
+
+  // При натисканні на кнопку української мови
+  $("#lang-uk").click(function () {
+    loadTranslations("ua");
+  });
+
+  // При натисканні на кнопку англійської мови
+  $("#lang-en").click(function () {
+    loadTranslations("en");
+  });
+
+  // Завантажуємо мову з localStorage, якщо вона є
+  const savedLanguage = localStorage.getItem("language");
+  if (savedLanguage) {
+    loadTranslations(savedLanguage); // Завантажуємо збережену мову
+  } else {
+    loadTranslations("ua"); // Якщо мова не збережена, завантажуємо українську за замовчуванням
+  }
+
+  // Додавання обробників для кнопок слайдера
+  $(".next").click(function () {
+    if (currentIndex < sliderData.length - visibleItems) {
+      currentIndex++;
+    } else {
+      currentIndex = 0;
+    }
+    updateSlider();
+  });
+
+  $(".prev").click(function () {
+    if (currentIndex > 0) {
+      currentIndex--;
+    } else {
+      currentIndex = sliderData.length - visibleItems;
+    }
+    updateSlider();
+  });
+
+  // Динамічне оновлення розмірів при зміні вікна
+  $(window).resize(function () {
+    itemWidth = $(".slider-item").outerWidth(true); // Перерахунок ширини елемента
+    updateSlider();
+  });
+});
+  </script>
+   
+</body>
+</html>
